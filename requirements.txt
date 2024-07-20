@@ -1,0 +1,6 @@
+Flask
+sentence-transformers
+faiss-cpu
+transformers
+PyMuPDF
+torch

@@ -17,9 +17,9 @@ This application allows users to upload a PDF and query its contents. It uses a 
    git clone https://github.com/Sss7-7-7/pdf-query-app.git
    cd pdf-query-app
 
-File Descriptions
+## File Descriptions
 
-app.py
+'app.py'
 
 • The main application file that sets up the Flask web server and handles the core logic of the application:
 
@@ -31,9 +31,9 @@ app.py
 
 • Answers user queries by finding the most relevant text chunk and generating a response using the text generation model.
 
-Models Used
+## Models Used
 
-Sentence Transformer
+### Sentence Transformer
 
 The application uses the `all-MiniLM-L6-v2 model from Hugging Face's Sentence Transformers library to generate embeddings for the text chunks and user queries. This model is efficient and provides high-quality sentence embeddings.
 
@@ -41,7 +41,7 @@ The application uses the `all-MiniLM-L6-v2 model from Hugging Face's Sentence Tr
 
 • Usage: Generating embeddings for text chunks and user queries.
 
-Text Generation Model
+### Text Generation Model
 
 The application uses the 'google/flan-t5-small model from Hugging Face's Transformers library for text generation. This model is used to generate answers based on the retrieved text chunks.
 
@@ -49,7 +49,7 @@ The application uses the 'google/flan-t5-small model from Hugging Face's Transfo
 
 • Usage: Generating responses to user queries based on the most relevant text chunk.
 
-Requirements
+## Requirements
 • Python 3.7+
 • Flask
 • sentence-transformers

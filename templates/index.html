@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PDF Query Answering</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container mt-5">
+        <h1 class="text-center mb-4 text-primary animate__animated animate__bounceInDown">PDF Query Answering</h1>
+        <form id="query-form" class="shadow-lg p-4 bg-white rounded animate__animated animate__fadeIn" method="POST" enctype="multipart/form-data">
+            <div class="form-group">
+                <label for="pdf" class="font-weight-bold">PDF File:</label>
+                <input type="file" id="pdf" name="pdf" class="form-control-file" required>
+            </div>
+            <div class="form-group">
+                <label for="query" class="font-weight-bold">Query:</label>
+                <textarea id="query" name="query" rows="5" class="form-control" required></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary btn-block"><i class="fas fa-search"></i> Process Query</button>
+        </form>
+        <div id="loading" class="text-center my-4" style="display: none;">
+            <div class="spinner-border text-primary" role="status">
+                <span class="sr-only">Loading...</span>
+            </div>
+        </div>
+        <div id="result" class="mt-5">
+            <div class="card border-primary animate__animated animate__fadeInUp">
+                <div class="card-header bg-primary text-white">
+                    <h2>Answer</h2>
+                </div>
+                <div class="card-body">
+                    <p id="answer" class="card-text"></p>
+                </div>
+            </div>
+            <div class="card border-success mt-3 animate__animated animate__fadeInUp">
+                <div class="card-header bg-success text-white">
+                    <h2>Context</h2>
+                </div>
+                <div class="card-body">
+                    <p id="context" class="card-text"></p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+    <script>
+        document.getElementById('query-form').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            const formData = new FormData(this);
+            document.getElementById('loading').style.display = 'block';
+            try {
+                const response = await fetch('/process', {
+                    method: 'POST',
+                    body: formData
+                });
+                const result = await response.json();
+                document.getElementById('loading').style.display = 'none';
+                if (result.error) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error',
+                        text: result.error,
+                    });
+                } else {
+                    document.getElementById('answer').innerText = result.answer;
+                    document.getElementById('context').innerText = result.context;
+                    document.getElementById('result').scrollIntoView({ behavior: 'smooth' });
+                }
+            } catch (error) {
+                document.getElementById('loading').style.display = 'none';
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: 'An error occurred while processing the query.',
+                });
+            }
+        });
+    </script>
+</body>
+</html>

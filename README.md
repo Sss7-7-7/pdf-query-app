@@ -57,3 +57,7 @@ The application uses the 'google/flan-t5-small model from Hugging Face's Transfo
 • transformers
 • PyMuPDF
 • torch
+
+## Credits
+
+Special thanks to [ChatGPT by OpenAI](https://www.openai.com/research/chatgpt) for providing assistance with generating and refining the content of this project.
